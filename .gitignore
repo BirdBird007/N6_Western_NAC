@@ -1,0 +1,13 @@
+# Local project gitignore
+node_modules/
+*.bak*
+*.tmp
+scratch/
+.gemini/
+.agents/
+
+# Ignore Office temporary files
+~$*
+
+# Ignore files exceeding GitHub's 100MB limit
+N3 Deciesion brief.pptx
