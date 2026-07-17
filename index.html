@@ -1070,6 +1070,7 @@
       <li class="active" onclick="switchTab('overview')"><a href="#overview">หน้าหลัก / ภาพรวม</a></li>
       <li onclick="switchTab('pms-process')"><a href="#pms-process" style="color: var(--accent-cyan); font-weight: bold;"><span style="display:inline-block; width:10px; height:10px; background:var(--accent-cyan); border-radius:50%; margin-right:6px; box-shadow: 0 0 8px var(--accent-cyan);"></span>กระบวนการ ปมส.</a></li>
       <li onclick="switchTab('n6-wargame')"><a href="#n6-wargame" style="color: var(--accent-cyan); font-weight: bold;"><span style="display:inline-block; width:10px; height:10px; background:var(--accent-cyan); border-radius:50%; margin-right:6px; box-shadow: 0 0 8px var(--accent-cyan);"></span>ฝ่ายเสนาธิการด้านการสื่อสารและไซเบอร์ (N6) ทัพเรือภาคตะวันตก</a></li>
+      <li onclick="switchTab('noc-monitoring')"><a href="#noc-monitoring" style="color: #ff9100; font-weight: bold;"><span style="display:inline-block; width:10px; height:10px; background:#ff9100; border-radius:50%; margin-right:6px; box-shadow: 0 0 8px #ff9100; animation: pulse 2s infinite;"></span>ศูนย์เฝ้าระวังเครือข่าย ทรภ.ตต. (NOC Monitoring)</a></li>
       <li onclick="switchTab('section1')"><a href="#section1">๑. การกำหนดกรอบปฏิบัติการ</a></li>
       <li onclick="switchTab('section2')"><a href="#section2">๒. การวิเคราะห์ภารกิจ</a></li>
       <li onclick="switchTab('section3')"><a href="#section3">๓. การกำหนดหนทางปฏิบัติ</a></li>
@@ -4870,6 +4871,181 @@
       </div>
     </section>
 
+      <!-- TAB: NOC Monitoring Simulation -->
+      <section id="noc-monitoring" class="section-tab">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; flex-wrap: wrap; gap: 12px;">
+          <h2 class="section-title" style="margin: 0; display: flex; align-items: center; gap: 10px;">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#ff9100" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="8" rx="2" ry="2"></rect><rect x="2" y="14" width="20" height="8" rx="2" ry="2"></rect><line x1="6" y1="6" x2="6.01" y2="6"></line><line x1="6" y1="18" x2="6.01" y2="18"></line></svg>
+            ศูนย์ควบคุมปฏิบัติการเครือข่าย ทรภ.ตต. (Network Operations Center - NOC)
+          </h2>
+          
+          <div style="display: flex; align-items: center; gap: 12px; background: rgba(30, 41, 59, 0.6); padding: 6px 14px; border-radius: 20px; border: 1px solid var(--border-color);">
+            <span id="nocSystemStatusBadge" style="display:inline-block; width:10px; height:10px; background:#00e676; border-radius:50%; box-shadow: 0 0 10px #00e676;"></span>
+            <span id="nocSystemStatusText" style="font-weight: 700; color: #00e676; font-size: 13.5px; letter-spacing: 0.5px;">SYSTEM SECURE (24x7 Active)</span>
+            <span style="color: var(--text-secondary); font-size: 12px;">|</span>
+            <span id="nocClock" style="font-family: monospace; font-weight: 700; color: var(--text-primary); font-size: 14px;">12:00:00 UTC</span>
+          </div>
+        </div>
+
+        <!-- NOC Alert Banner -->
+        <div id="nocAlertBanner" style="display: none; background: rgba(255, 23, 68, 0.1); border: 1px solid rgba(255, 23, 68, 0.3); border-radius: 8px; padding: 14px 18px; margin-bottom: 20px; align-items: center; gap: 12px; animation: pulse 1.5s infinite;">
+          <span style="display: inline-block; width: 10px; height: 10px; background: #ff1744; border-radius: 50%; box-shadow: 0 0 10px #ff1744;"></span>
+          <p id="nocAlertText" style="margin: 0; font-size: 14px; font-weight: 600; color: #ff1744;"></p>
+        </div>
+
+        <!-- Stat Row -->
+        <div class="grid-4" style="margin-bottom: 24px; gap: 16px;">
+          <div class="card" style="margin: 0; padding: 16px; background: rgba(30, 41, 59, 0.4); border-left: 3px solid #00e676;">
+            <div style="font-size: 12.5px; color: var(--text-secondary); margin-bottom: 6px; font-weight: 500;">ระบบความพร้อมเครือข่ายสะสม (Uptime)</div>
+            <div style="font-size: 26px; font-weight: 700; color: var(--text-primary); font-family: monospace;">99.982%</div>
+            <div style="font-size: 11.5px; color: #00e676; margin-top: 4px;">🟢 ข่ายสื่อสารสำรองพร้อมทำงาน</div>
+          </div>
+          <div class="card" style="margin: 0; padding: 16px; background: rgba(30, 41, 59, 0.4); border-left: 3px solid var(--accent-blue);">
+            <div style="font-size: 12.5px; color: var(--text-secondary); margin-bottom: 6px; font-weight: 500;">โหนดการเชื่อมต่อสั่งการ (Active Nodes)</div>
+            <div id="nocActiveNodesText" style="font-size: 26px; font-weight: 700; color: var(--text-primary); font-family: monospace;">9 / 9 โหนด</div>
+            <div style="font-size: 11.5px; color: var(--accent-blue); margin-top: 4px;">🔵 โครงข่ายหลักทำงานเต็มขีดพิกัด</div>
+          </div>
+          <div class="card" style="margin: 0; padding: 16px; background: rgba(30, 41, 59, 0.4); border-left: 3px solid var(--accent-cyan);">
+            <div style="font-size: 12.5px; color: var(--text-secondary); margin-bottom: 6px; font-weight: 500;">ปริมาณทราฟฟิกรวม (Bandwidth Load)</div>
+            <div id="nocBandwidthText" style="font-size: 26px; font-weight: 700; color: var(--text-primary); font-family: monospace;">42.48 Mbps</div>
+            <div style="font-size: 11.5px; color: var(--text-secondary); margin-top: 4px; display: flex; align-items: center; gap: 6px;">
+              <div style="flex:1; height:4px; background:rgba(255,255,255,0.08); border-radius:2px;">
+                <div id="nocBandwidthBar" style="height:100%; width:42%; background:var(--accent-cyan); border-radius:2px; transition: width 0.5s;"></div>
+              </div>
+              <span id="nocBandwidthPercent" style="font-size: 10px; font-family: monospace;">42%</span>
+            </div>
+          </div>
+          <div class="card" style="margin: 0; padding: 16px; background: rgba(30, 41, 59, 0.4); border-left: 3px solid #ff1744;">
+            <div style="font-size: 12.5px; color: var(--text-secondary); margin-bottom: 6px; font-weight: 500;">สถิติการบล็อกภัยไซเบอร์ (DCO Blocked)</div>
+            <div id="nocCyberBlockedText" style="font-size: 26px; font-weight: 700; color: var(--text-primary); font-family: monospace;">1,284 ครั้ง</div>
+            <div id="nocCyberBlockedRate" style="font-size: 11.5px; color: #ff1744; margin-top: 4px;">🛡️ อัตราสกัดกั้นปกติ: ~1 ครั้ง/นาที</div>
+          </div>
+        </div>
+
+        <div style="display: grid; grid-template-columns: 1.2fr 1fr; gap: 20px; margin-bottom: 24px;">
+          
+          <!-- Column 1: Node Performance & Details -->
+          <div class="card" style="margin: 0; display: flex; flex-direction: column;">
+            <div class="card-title" style="margin-bottom: 16px; display:flex; justify-content:space-between; align-items:center;">
+              <span>ตารางตรวจสอบพิกัดโหนดสัญญาณ (NOC Node Telemetry Matrix)</span>
+              <span style="font-size: 11px; color: var(--text-secondary);">คลิกเลือกแถวเพื่อแสดงกราฟวิเคราะห์</span>
+            </div>
+            
+            <div style="overflow-x: auto; flex: 1;">
+              <table id="nocNodeTable" style="width: 100%; border-collapse: collapse; font-size: 13.5px; color: var(--text-primary);">
+                <thead>
+                  <tr style="border-bottom: 1px solid var(--border-color); text-align: left;">
+                    <th style="padding: 10px 8px; color: var(--text-secondary); font-weight: 600;">ชื่อโหนดสถานี (Node)</th>
+                    <th style="padding: 10px 8px; color: var(--text-secondary); font-weight: 600;">ประเภทข่ายงาน (Type)</th>
+                    <th style="padding: 10px 8px; color: var(--text-secondary); font-weight: 600;">สถานภาพ (Status)</th>
+                    <th style="padding: 10px 8px; color: var(--text-secondary); font-weight: 600; text-align: right;">ความหน่วง (Latency)</th>
+                    <th style="padding: 10px 8px; color: var(--text-secondary); font-weight: 600; text-align: right;">อัตราสูญหาย (Loss)</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr onclick="selectNocNode('rome', this)" class="active" style="border-bottom: 1px solid rgba(255,255,255,0.04); cursor: pointer; transition: background 0.2s;">
+                    <td style="padding: 10px 8px; font-weight: 600;">ROME (NOC Central)</td>
+                    <td style="padding: 10px 8px; color: var(--text-secondary);">Leased-line / HF</td>
+                    <td style="padding: 10px 8px;"><span class="status-tag green">Online</span></td>
+                    <td id="node-latency-rome" style="padding: 10px 8px; text-align: right; font-family: monospace; color: #00e676;">4 ms</td>
+                    <td style="padding: 10px 8px; text-align: right; font-family: monospace;">0.0%</td>
+                  </tr>
+                  <tr onclick="selectNocNode('venezia', this)" style="border-bottom: 1px solid rgba(255,255,255,0.04); cursor: pointer; transition: background 0.2s;">
+                    <td style="padding: 10px 8px; font-weight: 600;">Venezia Link</td>
+                    <td style="padding: 10px 8px; color: var(--text-secondary);">Leased-line</td>
+                    <td style="padding: 10px 8px;"><span class="status-tag green">Online</span></td>
+                    <td id="node-latency-venezia" style="padding: 10px 8px; text-align: right; font-family: monospace; color: #00e676;">8 ms</td>
+                    <td style="padding: 10px 8px; text-align: right; font-family: monospace;">0.0%</td>
+                  </tr>
+                  <tr onclick="selectNocNode('split', this)" style="border-bottom: 1px solid rgba(255,255,255,0.04); cursor: pointer; transition: background 0.2s;">
+                    <td style="padding: 10px 8px; font-weight: 600;">Split Node</td>
+                    <td style="padding: 10px 8px; color: var(--text-secondary);">Leased-line / HF</td>
+                    <td id="node-status-split" style="padding: 10px 8px;"><span class="status-tag green">Online</span></td>
+                    <td id="node-latency-split" style="padding: 10px 8px; text-align: right; font-family: monospace; color: #00e676;">14 ms</td>
+                    <td id="node-loss-split" style="padding: 10px 8px; text-align: right; font-family: monospace;">0.0%</td>
+                  </tr>
+                  <tr onclick="selectNocNode('dubrovnik', this)" style="border-bottom: 1px solid rgba(255,255,255,0.04); cursor: pointer; transition: background 0.2s;">
+                    <td style="padding: 10px 8px; font-weight: 600;">Dubrovnik St.</td>
+                    <td style="padding: 10px 8px; color: var(--text-secondary);">Microwave Link</td>
+                    <td style="padding: 10px 8px;"><span class="status-tag green">Online</span></td>
+                    <td id="node-latency-dubrovnik" style="padding: 10px 8px; text-align: right; font-family: monospace; color: #00e676;">18 ms</td>
+                    <td style="padding: 10px 8px; text-align: right; font-family: monospace;">0.0%</td>
+                  </tr>
+                  <tr onclick="selectNocNode('foggia', this)" style="border-bottom: 1px solid rgba(255,255,255,0.04); cursor: pointer; transition: background 0.2s;">
+                    <td style="padding: 10px 8px; font-weight: 600;">Foggia (Local Hub)</td>
+                    <td style="padding: 10px 8px; color: var(--text-secondary);">Microwave / SAT</td>
+                    <td style="padding: 10px 8px;"><span class="status-tag green">Online</span></td>
+                    <td id="node-latency-foggia" style="padding: 10px 8px; text-align: right; font-family: monospace; color: #00e676;">11 ms</td>
+                    <td style="padding: 10px 8px; text-align: right; font-family: monospace;">0.0%</td>
+                  </tr>
+                  <tr onclick="selectNocNode('salerno', this)" style="border-bottom: 1px solid rgba(255,255,255,0.04); cursor: pointer; transition: background 0.2s;">
+                    <td style="padding: 10px 8px; font-weight: 600;">Salerno Station</td>
+                    <td style="padding: 10px 8px; color: var(--text-secondary);">SATCOM / HF</td>
+                    <td style="padding: 10px 8px;"><span class="status-tag green">Online</span></td>
+                    <td id="node-latency-salerno" style="padding: 10px 8px; text-align: right; font-family: monospace; color: #00e676;">19 ms</td>
+                    <td style="padding: 10px 8px; text-align: right; font-family: monospace;">0.0%</td>
+                  </tr>
+                  <tr onclick="selectNocNode('golfo', this)" style="border-bottom: 1px solid rgba(255,255,255,0.04); cursor: pointer; transition: background 0.2s;">
+                    <td style="padding: 10px 8px; font-weight: 600;">Golfo (Talos Link)</td>
+                    <td style="padding: 10px 8px; color: var(--text-secondary);">SATCOM System</td>
+                    <td id="node-status-golfo" style="padding: 10px 8px;"><span class="status-tag green">Online</span></td>
+                    <td id="node-latency-golfo" style="padding: 10px 8px; text-align: right; font-family: monospace; color: #00e676;">25 ms</td>
+                    <td id="node-loss-golfo" style="padding: 10px 8px; text-align: right; font-family: monospace;">0.0%</td>
+                  </tr>
+                  <tr onclick="selectNocNode('malta', this)" style="border-bottom: 1px solid rgba(255,255,255,0.04); cursor: pointer; transition: background 0.2s;">
+                    <td style="padding: 10px 8px; font-weight: 600;">Malta SGB St.</td>
+                    <td style="padding: 10px 8px; color: var(--text-secondary);">SATCOM / DF</td>
+                    <td style="padding: 10px 8px;"><span class="status-tag green">Online</span></td>
+                    <td id="node-latency-malta" style="padding: 10px 8px; text-align: right; font-family: monospace; color: #00e676;">22 ms</td>
+                    <td style="padding: 10px 8px; text-align: right; font-family: monospace;">0.0%</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+
+            <!-- Operator Action Controls inside Left card -->
+            <div style="margin-top: 16px; border-top: 1px solid var(--border-color); padding-top: 16px; display: flex; flex-direction:column; gap: 8px;">
+              <span style="font-size: 12px; font-weight: 600; color: var(--text-secondary);">เครื่องมือควบคุมจำลองเหตุการณ์ (NOC Simulation Controls)</span>
+              <div style="display: flex; gap: 10px;">
+                <button class="btn-filter" onclick="simulateNocThreat()" style="background: rgba(255, 23, 68, 0.1); border: 1px solid rgba(255, 23, 68, 0.3); color:#ff1744; font-size:12px; padding: 6px 12px;">จำลองภัยไซเบอร์ (DCO Alert)</button>
+                <button class="btn-filter" onclick="simulateNocJamming()" style="background: rgba(255, 145, 0, 0.1); border: 1px solid rgba(255, 145, 0, 0.3); color:#ff9100; font-size:12px; padding: 6px 12px;">จำลองการกวนสัญญาณ (EW Jamming)</button>
+                <button class="btn-filter" onclick="clearNocSimulation()" style="background: rgba(0, 230, 118, 0.1); border: 1px solid rgba(0, 230, 118, 0.3); color:#00e676; font-size:12px; padding: 6px 12px;">ล้างสัญญาณเตือน (Reset)</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Column 2: Live Graph & Terminal Console -->
+          <div style="display: flex; flex-direction: column; gap: 20px;">
+            
+            <!-- Graph Card -->
+            <div class="card" style="margin: 0; flex: 1; display:flex; flex-direction:column;">
+              <div class="card-title" style="margin-bottom: 12px; display:flex; justify-content:space-between; align-items:center;">
+                <span id="nocSelectedNodeTitle">อัตราการส่งผ่านข้อมูลโหนด: ROME (NOC Central)</span>
+                <span style="font-size: 11px; font-family: monospace; color: var(--accent-cyan);">Live Telemetry</span>
+              </div>
+              <div style="flex:1; background: rgba(0,0,0,0.2); border:1px solid var(--border-color); border-radius:6px; min-height: 140px; position:relative; overflow:hidden; display:flex; justify-content:center; align-items:center;">
+                <canvas id="nocTrafficChart" style="position:absolute; top:0; left:0; width:100%; height:100%;"></canvas>
+              </div>
+            </div>
+
+            <!-- Console Card -->
+            <div class="card" style="margin: 0; flex: 1; display:flex; flex-direction:column;">
+              <div class="card-title" style="margin-bottom: 8px; display:flex; justify-content:space-between; align-items:center;">
+                <span>บันทึกความมั่นคงปลอดภัยเครือข่าย (Surveillance & Security Logs)</span>
+                <span style="font-size: 11px; font-family: monospace; color: #00e676; animation: flash 1s infinite;">● NOC LOGGING</span>
+              </div>
+              <div id="nocTerminal" style="background:#020617; border: 1px solid var(--border-color); border-radius: 6px; padding: 12px; font-family: 'Courier New', Courier, monospace; font-size: 12px; color: #00e676; height: 160px; overflow-y: auto; line-height: 1.5; white-space: pre-wrap; text-align: left;">
+[NOC-LOG] 24x7 Network Monitoring Engine initialized.
+[NOC-LOG] SATCOM, Microwave, HF, and Leased-line node links online.
+[DCO-SYS] Advanced packet inspection firewall activated.
+[DCO-SYS] Port scans from Woadland borders successfully filtered.
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </section>
+
     
 <!-- END CONTENT CONTAINER --></div>
   </main>
@@ -4898,6 +5074,16 @@
       const selectedTab = document.getElementById(tabId);
       if (selectedTab) {
         selectedTab.classList.add('active');
+      }
+      
+      // Initialize NOC Monitoring Chart if tab switched to noc-monitoring
+      if (tabId === 'noc-monitoring') {
+        setTimeout(initNocChart, 200);
+      } else {
+        if (nocChartAnimationId) {
+          cancelAnimationFrame(nocChartAnimationId);
+          nocChartAnimationId = null;
+        }
       }
       
       // Auto-render Mermaid on tab activation if it is section3 or sheet-dp
@@ -5108,6 +5294,343 @@
         const captionText = title.textContent.trim();
         openModal(img.src, captionText);
       }
+    }
+
+
+        // ====================================================
+    // NOC Monitoring Simulator Logic
+    // ====================================================
+    let nocSelectedNode = 'rome';
+    let nocIncidentsBlocked = 1284;
+    let nocAlertState = 'normal'; // normal, threat, jamming
+    let nocCanvas, nocCtx;
+    let nocTrafficPoints = Array(30).fill(40);
+    let nocChartAnimationId;
+    let nocSimulationTimer;
+
+    // Digital clock
+    function updateNocClock() {
+      const clockElem = document.getElementById('nocClock');
+      if (!clockElem) return;
+      const now = new Date();
+      const h = String(now.getHours()).padStart(2, '0');
+      const m = String(now.getMinutes()).padStart(2, '0');
+      const s = String(now.getSeconds()).padStart(2, '0');
+      clockElem.textContent = `${h}:${m}:${s} TCT (Local)`;
+    }
+    setInterval(updateNocClock, 1000);
+
+    // Random fluctuations
+    function updateNocTelemetry() {
+      if (document.getElementById('noc-monitoring') && document.getElementById('noc-monitoring').classList.contains('active')) {
+        // Update Bandwidth
+        const baseBandwidth = nocAlertState === 'threat' ? 82.5 : (nocAlertState === 'jamming' ? 24.1 : 42.5);
+        const randFloat = (Math.random() * 4 - 2);
+        const currentBw = (baseBandwidth + randFloat).toFixed(2);
+        const percent = Math.round((currentBw / 100) * 100);
+        
+        document.getElementById('nocBandwidthText').textContent = `${currentBw} Mbps`;
+        document.getElementById('nocBandwidthBar').style.width = `${percent}%`;
+        document.getElementById('nocBandwidthPercent').textContent = `${percent}%`;
+
+        // Update incidents counter (faster ticks during threat)
+        const tickIncidents = nocAlertState === 'threat' ? Math.floor(Math.random() * 4) + 2 : (Math.random() > 0.6 ? 1 : 0);
+        nocIncidentsBlocked += tickIncidents;
+        document.getElementById('nocCyberBlockedText').textContent = `${nocIncidentsBlocked.toLocaleString()} ครั้ง`;
+
+        // Update random latencies in table
+        const nodes = ['rome', 'venezia', 'split', 'dubrovnik', 'foggia', 'salerno', 'golfo', 'malta'];
+        nodes.forEach(n => {
+          const latElem = document.getElementById(`node-latency-${n}`);
+          if (latElem) {
+            // Check state
+            if (n === 'split' && nocAlertState === 'threat') {
+              latElem.textContent = `${Math.floor(Math.random() * 50) + 120} ms`;
+              latElem.style.color = '#ff1744';
+            } else if (n === 'golfo' && nocAlertState === 'jamming') {
+              latElem.textContent = 'Timeout';
+              latElem.style.color = '#ff9100';
+            } else {
+              const baseLat = n === 'rome' ? 4 : (n === 'venezia' ? 8 : (n === 'split' ? 14 : (n === 'dubrovnik' ? 18 : (n === 'foggia' ? 11 : (n === 'salerno' ? 19 : (n === 'golfo' ? 25 : 22))))));
+              const fl = Math.floor(Math.random() * 3) - 1;
+              latElem.textContent = `${baseLat + fl} ms`;
+              latElem.style.color = '#00e676';
+            }
+          }
+        });
+
+        // Add auto logging entry periodically
+        if (Math.random() > 0.7) {
+          appendNocLog();
+        }
+      }
+    }
+    setInterval(updateNocTelemetry, 2500);
+
+    function appendNocLog(forcedMsg) {
+      const terminal = document.getElementById('nocTerminal');
+      if (!terminal) return;
+      
+      const now = new Date();
+      const timeStr = `[${String(now.getHours()).padStart(2, '0')}:${String(now.getMinutes()).padStart(2, '0')}:${String(now.getSeconds()).padStart(2, '0')}]`;
+      
+      let msg = '';
+      if (forcedMsg) {
+        msg = `${timeStr} ${forcedMsg}`;
+      } else {
+        const threatLogs = [
+          'DCO-SYS: Blocked syn-flood attempt from proxy block WL-203.',
+          'DCO-SYS: Port scan detected on Foggia node firewall.',
+          'NOC-LOG: Sat Link stabilized at Malta SGB station.',
+          'NOC-LOG: Automated packet check complete. Loss rate 0.00%.',
+          'NOC-LOG: HF backup link synchronized with HQ.',
+          'DCO-SYS: Intrusion detection alert cleared on Salerno.'
+        ];
+        msg = `${timeStr} ${threatLogs[Math.floor(Math.random() * threatLogs.length)]}`;
+      }
+
+      terminal.textContent += `\n${msg}`;
+      terminal.scrollTop = terminal.scrollHeight;
+    }
+
+    // Node selector
+    function selectNocNode(nodeId, element) {
+      nocSelectedNode = nodeId;
+      
+      // Update active class in table
+      const rows = document.getElementById('nocNodeTable').getElementsByTagName('tbody')[0].getElementsByTagName('tr');
+      for (let i = 0; i < rows.length; i++) {
+        rows[i].classList.remove('active');
+      }
+      element.classList.add('active');
+
+      // Update graph title
+      const nodeNames = {
+        rome: 'ROME (NOC Central)',
+        venezia: 'Venezia Link',
+        split: 'Split Node',
+        dubrovnik: 'Dubrovnik St.',
+        foggia: 'Foggia (Local Hub)',
+        salerno: 'Salerno Station',
+        golfo: 'Golfo (Talos Link)',
+        malta: 'Malta SGB St.'
+      };
+      document.getElementById('nocSelectedNodeTitle').textContent = `อัตราการส่งผ่านข้อมูลโหนด: ${nodeNames[nodeId] || nodeId}`;
+      
+      // Clear and trigger fresh graph simulation
+      nocTrafficPoints = Array(30).fill().map(() => Math.floor(Math.random() * 40) + 20);
+      appendNocLog(`NOC-LOG: Selected telemetry monitoring for ${nodeNames[nodeId] || nodeId}`);
+    }
+
+    // Live Chart drawing using HTML5 Canvas
+    function initNocChart() {
+      nocCanvas = document.getElementById('nocTrafficChart');
+      if (!nocCanvas) return;
+      nocCtx = nocCanvas.getContext('2d');
+      
+      // Resize canvas to fit container
+      nocCanvas.width = nocCanvas.parentElement.clientWidth;
+      nocCanvas.height = nocCanvas.parentElement.clientHeight;
+
+      // Start loop
+      if (nocChartAnimationId) cancelAnimationFrame(nocChartAnimationId);
+      drawNocChart();
+    }
+
+    function drawNocChart() {
+      if (!nocCanvas || !nocCtx) return;
+      
+      nocCtx.clearRect(0, 0, nocCanvas.width, nocCanvas.height);
+
+      // Fluctuating gridlines
+      nocCtx.strokeStyle = 'rgba(255,255,255,0.03)';
+      nocCtx.lineWidth = 1;
+      for (let i = 0; i < nocCanvas.width; i += 30) {
+        nocCtx.beginPath();
+        nocCtx.moveTo(i, 0);
+        nocCtx.lineTo(i, nocCanvas.height);
+        nocCtx.stroke();
+      }
+      for (let i = 0; i < nocCanvas.height; i += 20) {
+        nocCtx.beginPath();
+        nocCtx.moveTo(0, i);
+        nocCtx.lineTo(nocCanvas.width, i);
+        nocCtx.stroke();
+      }
+
+      // Draw line graph
+      const points = nocTrafficPoints;
+      nocCtx.beginPath();
+      
+      const sliceWidth = nocCanvas.width / (points.length - 1);
+      nocCtx.lineWidth = 2.5;
+      
+      // Line color based on state/node
+      let strokeColor = '#00e5ff'; // Cyan
+      let fillColor = 'rgba(0, 229, 255, 0.05)';
+      
+      if (nocSelectedNode === 'split' && nocAlertState === 'threat') {
+        strokeColor = '#ff1744'; // Red
+        fillColor = 'rgba(255, 23, 68, 0.08)';
+      } else if (nocSelectedNode === 'golfo' && nocAlertState === 'jamming') {
+        strokeColor = '#ff9100'; // Orange
+        fillColor = 'rgba(255, 145, 0, 0.08)';
+      }
+      
+      nocCtx.strokeStyle = strokeColor;
+      
+      for (let i = 0; i < points.length; i++) {
+        // Calculate point height
+        const val = points[i];
+        const y = nocCanvas.height - (val / 100) * nocCanvas.height * 0.8 - 15;
+        const x = i * sliceWidth;
+        
+        if (i === 0) {
+          nocCtx.moveTo(x, y);
+        } else {
+          nocCtx.lineTo(x, y);
+        }
+      }
+      nocCtx.stroke();
+
+      // Draw area fill
+      nocCtx.lineTo(nocCanvas.width, nocCanvas.height);
+      nocCtx.lineTo(0, nocCanvas.height);
+      nocCtx.fillStyle = fillColor;
+      nocCtx.closePath();
+      nocCtx.fill();
+
+      // Shift line data
+      if (Math.random() > 0.4) {
+        points.shift();
+        let nextVal = points[points.length - 1] + (Math.floor(Math.random() * 10) - 5);
+        if (nextVal < 10) nextVal = 15;
+        if (nextVal > 95) nextVal = 85;
+        
+        // High load simulation for specific nodes in alert
+        if (nocSelectedNode === 'split' && nocAlertState === 'threat') {
+          nextVal = Math.floor(Math.random() * 20) + 75; // 75-95% load
+        } else if (nocSelectedNode === 'golfo' && nocAlertState === 'jamming') {
+          nextVal = Math.floor(Math.random() * 10) + 5; // 5-15% degraded load
+        }
+        
+        points.push(nextVal);
+      }
+
+      nocChartAnimationId = requestAnimationFrame(drawNocChart);
+    }
+
+    // Simulation Trigger: Cyber Threat (DCO)
+    function simulateNocThreat() {
+      nocAlertState = 'threat';
+      
+      // Update badge and text status
+      const badge = document.getElementById('nocSystemStatusBadge');
+      const text = document.getElementById('nocSystemStatusText');
+      const banner = document.getElementById('nocAlertBanner');
+      const alertTxt = document.getElementById('nocAlertText');
+      const activeText = document.getElementById('nocActiveNodesText');
+      
+      badge.style.background = '#ff1744';
+      badge.style.boxShadow = '0 0 10px #ff1744';
+      text.textContent = 'DCO THREAT ALERT';
+      text.style.color = '#ff1744';
+      
+      activeText.textContent = '9 / 9 โหนด (1 Attacked)';
+      activeText.style.color = '#ff1744';
+      
+      alertTxt.textContent = 'DCO ALERT: ตรวจพบคลื่นเจาะจงสัญญาณและภัยคุกคามประเภท Syn-Flood (DDoS) ยิงถล่มโหนด Split! กำลังสถาปนาระบบกรองข้อมูลด้วย Zero Trust Web Filter!';
+      banner.style.display = 'flex';
+      banner.style.background = 'rgba(255, 23, 68, 0.1)';
+      banner.style.borderColor = 'rgba(255, 23, 68, 0.35)';
+      
+      // Update split node status inside table
+      const splitStatus = document.getElementById('node-status-split');
+      if (splitStatus) {
+        splitStatus.innerHTML = '<span class="status-tag red" style="animation: flash 1s infinite;">ATTACKED</span>';
+      }
+      
+      // Speed up blocks rate
+      document.getElementById('nocCyberBlockedRate').textContent = '🛡️ อัตราสกัดกั้นเร่งด่วน: ~45 ครั้ง/วินาที';
+      
+      appendNocLog('DCO ALERT: Intrusion Detection triggered on Split Node!');
+      appendNocLog('DCO ALERT: Initiated automated defensive firewall blacklisting.');
+    }
+
+    // Simulation Trigger: SATCOM Jamming
+    function simulateNocJamming() {
+      nocAlertState = 'jamming';
+      
+      const badge = document.getElementById('nocSystemStatusBadge');
+      const text = document.getElementById('nocSystemStatusText');
+      const banner = document.getElementById('nocAlertBanner');
+      const alertTxt = document.getElementById('nocAlertText');
+      const activeText = document.getElementById('nocActiveNodesText');
+      
+      badge.style.background = '#ff9100';
+      badge.style.boxShadow = '0 0 10px #ff9100';
+      text.textContent = 'EW JAMMING WARNING';
+      text.style.color = '#ff9100';
+      
+      activeText.textContent = '8 / 9 โหนด (1 Degraded)';
+      activeText.style.color = '#ff9100';
+      
+      alertTxt.textContent = 'EW ALERT: ข้าศึกส่งสัญญาณกวนคลื่นความถี่ดาวเทียมตรวจการหลัก บริเวณโหนด Golfo (เกาะ Talos)! ปรับเปลี่ยนช่องทาง C2 ไปใช้ HF Ground Wave สำรองแทน!';
+      banner.style.display = 'flex';
+      banner.style.background = 'rgba(255, 145, 0, 0.1)';
+      banner.style.borderColor = 'rgba(255, 145, 0, 0.35)';
+      
+      // Update golfo status inside table
+      const golfoStatus = document.getElementById('node-status-golfo');
+      if (golfoStatus) {
+        golfoStatus.innerHTML = '<span class="status-tag amber" style="animation: flash 1.5s infinite;">DEGRADED</span>';
+      }
+      
+      // Reset split status if it was threat
+      const splitStatus = document.getElementById('node-status-split');
+      if (splitStatus) {
+        splitStatus.innerHTML = '<span class="status-tag green">Online</span>';
+      }
+      
+      document.getElementById('nocCyberBlockedRate').textContent = '🛡️ อัตราสกัดกั้นปกติ: ~1 ครั้ง/นาที';
+      
+      appendNocLog('EW ALERT: Carrier-to-noise ratio degraded on Golfo SATCOM link.');
+      appendNocLog('NOC-LOG: Rerouted central C2 telemetry of Golfo via ROME HF Ground Wave.');
+    }
+
+    // Reset Simulation
+    function clearNocSimulation() {
+      nocAlertState = 'normal';
+      
+      const badge = document.getElementById('nocSystemStatusBadge');
+      const text = document.getElementById('nocSystemStatusText');
+      const banner = document.getElementById('nocAlertBanner');
+      const activeText = document.getElementById('nocActiveNodesText');
+      
+      badge.style.background = '#00e676';
+      badge.style.boxShadow = '0 0 10px #00e676';
+      text.textContent = 'SYSTEM SECURE (24x7 Active)';
+      text.style.color = '#00e676';
+      
+      activeText.textContent = '9 / 9 โหนด';
+      activeText.style.color = 'var(--text-primary)';
+      
+      banner.style.display = 'none';
+      
+      // Restore all status tags inside table
+      const splitStatus = document.getElementById('node-status-split');
+      if (splitStatus) {
+        splitStatus.innerHTML = '<span class="status-tag green">Online</span>';
+      }
+      
+      const golfoStatus = document.getElementById('node-status-golfo');
+      if (golfoStatus) {
+        golfoStatus.innerHTML = '<span class="status-tag green">Online</span>';
+      }
+      
+      document.getElementById('nocCyberBlockedRate').textContent = '🛡️ อัตราสกัดกั้นปกติ: ~1 ครั้ง/นาที';
+      
+      appendNocLog('NOC-LOG: Operator reset alarm. System returned to nominal status.');
     }
 
 
