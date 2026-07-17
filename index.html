@@ -276,6 +276,15 @@
     }
 
     /* Glassmorphism Cards */
+    #nocNodeTable tr.active {
+      background-color: rgba(2, 132, 199, 0.08) !important;
+      color: var(--text-primary) !important;
+      border-left: 3px solid var(--accent-blue);
+    }
+    #nocNodeTable tr:hover {
+      background-color: rgba(0, 0, 0, 0.02) !important;
+    }
+    
     .card {
       background-color: var(--bg-card);
       border: 1px solid var(--border-color);
@@ -4879,7 +4888,7 @@
             ศูนย์ควบคุมปฏิบัติการเครือข่าย ทรภ.ตต. (Network Operations Center - NOC)
           </h2>
           
-          <div style="display: flex; align-items: center; gap: 12px; background: rgba(30, 41, 59, 0.6); padding: 6px 14px; border-radius: 20px; border: 1px solid var(--border-color);">
+          <div style="display: flex; align-items: center; gap: 12px; background: var(--bg-secondary); padding: 6px 14px; border-radius: 20px; border: 1px solid var(--border-color);">
             <span id="nocSystemStatusBadge" style="display:inline-block; width:10px; height:10px; background:#00e676; border-radius:50%; box-shadow: 0 0 10px #00e676;"></span>
             <span id="nocSystemStatusText" style="font-weight: 700; color: #00e676; font-size: 13.5px; letter-spacing: 0.5px;">SYSTEM SECURE (24x7 Active)</span>
             <span style="color: var(--text-secondary); font-size: 12px;">|</span>
@@ -4895,30 +4904,30 @@
 
         <!-- Stat Row -->
         <div class="grid-4" style="margin-bottom: 24px; gap: 16px;">
-          <div class="card" style="margin: 0; padding: 16px; background: rgba(30, 41, 59, 0.4); border-left: 3px solid #00e676;">
+          <div class="card" style="margin: 0; padding: 16px; background: var(--bg-card); border: 1px solid var(--border-color); border-left: 4px solid #16a34a; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03);">
             <div style="font-size: 12.5px; color: var(--text-secondary); margin-bottom: 6px; font-weight: 500;">ระบบความพร้อมเครือข่ายสะสม (Uptime)</div>
             <div style="font-size: 26px; font-weight: 700; color: var(--text-primary); font-family: monospace;">99.982%</div>
-            <div style="font-size: 11.5px; color: #00e676; margin-top: 4px;">🟢 ข่ายสื่อสารสำรองพร้อมทำงาน</div>
+            <div style="font-size: 11.5px; color: #16a34a; margin-top: 4px; font-weight: 500;">🟢 ข่ายสื่อสารสำรองพร้อมทำงาน</div>
           </div>
-          <div class="card" style="margin: 0; padding: 16px; background: rgba(30, 41, 59, 0.4); border-left: 3px solid var(--accent-blue);">
+          <div class="card" style="margin: 0; padding: 16px; background: var(--bg-card); border: 1px solid var(--border-color); border-left: 4px solid var(--accent-blue); box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03);">
             <div style="font-size: 12.5px; color: var(--text-secondary); margin-bottom: 6px; font-weight: 500;">โหนดการเชื่อมต่อสั่งการ (Active Nodes)</div>
             <div id="nocActiveNodesText" style="font-size: 26px; font-weight: 700; color: var(--text-primary); font-family: monospace;">9 / 9 โหนด</div>
-            <div style="font-size: 11.5px; color: var(--accent-blue); margin-top: 4px;">🔵 โครงข่ายหลักทำงานเต็มขีดพิกัด</div>
+            <div style="font-size: 11.5px; color: var(--accent-blue); margin-top: 4px; font-weight: 500;">🔵 โครงข่ายหลักทำงานเต็มขีดพิกัด</div>
           </div>
-          <div class="card" style="margin: 0; padding: 16px; background: rgba(30, 41, 59, 0.4); border-left: 3px solid var(--accent-cyan);">
+          <div class="card" style="margin: 0; padding: 16px; background: var(--bg-card); border: 1px solid var(--border-color); border-left: 4px solid var(--accent-cyan); box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03);">
             <div style="font-size: 12.5px; color: var(--text-secondary); margin-bottom: 6px; font-weight: 500;">ปริมาณทราฟฟิกรวม (Bandwidth Load)</div>
             <div id="nocBandwidthText" style="font-size: 26px; font-weight: 700; color: var(--text-primary); font-family: monospace;">42.48 Mbps</div>
             <div style="font-size: 11.5px; color: var(--text-secondary); margin-top: 4px; display: flex; align-items: center; gap: 6px;">
-              <div style="flex:1; height:4px; background:rgba(255,255,255,0.08); border-radius:2px;">
+              <div style="flex:1; height:4px; background:rgba(0,0,0,0.06); border-radius:2px;">
                 <div id="nocBandwidthBar" style="height:100%; width:42%; background:var(--accent-cyan); border-radius:2px; transition: width 0.5s;"></div>
               </div>
-              <span id="nocBandwidthPercent" style="font-size: 10px; font-family: monospace;">42%</span>
+              <span id="nocBandwidthPercent" style="font-size: 10px; font-family: monospace; color: var(--text-secondary);">42%</span>
             </div>
           </div>
-          <div class="card" style="margin: 0; padding: 16px; background: rgba(30, 41, 59, 0.4); border-left: 3px solid #ff1744;">
+          <div class="card" style="margin: 0; padding: 16px; background: var(--bg-card); border: 1px solid var(--border-color); border-left: 4px solid var(--accent-red); box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03);">
             <div style="font-size: 12.5px; color: var(--text-secondary); margin-bottom: 6px; font-weight: 500;">สถิติการบล็อกภัยไซเบอร์ (DCO Blocked)</div>
             <div id="nocCyberBlockedText" style="font-size: 26px; font-weight: 700; color: var(--text-primary); font-family: monospace;">1,284 ครั้ง</div>
-            <div id="nocCyberBlockedRate" style="font-size: 11.5px; color: #ff1744; margin-top: 4px;">🛡️ อัตราสกัดกั้นปกติ: ~1 ครั้ง/นาที</div>
+            <div id="nocCyberBlockedRate" style="font-size: 11.5px; color: var(--accent-red); margin-top: 4px; font-weight: 500;">🛡️ อัตราสกัดกั้นปกติ: ~1 ครั้ง/นาที</div>
           </div>
         </div>
 
@@ -4943,56 +4952,56 @@
                   </tr>
                 </thead>
                 <tbody>
-                  <tr onclick="selectNocNode('rome', this)" class="active" style="border-bottom: 1px solid rgba(255,255,255,0.04); cursor: pointer; transition: background 0.2s;">
+                  <tr onclick="selectNocNode('rome', this)" class="active" style="border-bottom: 1px solid var(--border-color); cursor: pointer; transition: background 0.2s;">
                     <td style="padding: 10px 8px; font-weight: 600;">ROME (NOC Central)</td>
                     <td style="padding: 10px 8px; color: var(--text-secondary);">Leased-line / HF</td>
                     <td style="padding: 10px 8px;"><span class="status-tag green">Online</span></td>
                     <td id="node-latency-rome" style="padding: 10px 8px; text-align: right; font-family: monospace; color: #00e676;">4 ms</td>
                     <td style="padding: 10px 8px; text-align: right; font-family: monospace;">0.0%</td>
                   </tr>
-                  <tr onclick="selectNocNode('venezia', this)" style="border-bottom: 1px solid rgba(255,255,255,0.04); cursor: pointer; transition: background 0.2s;">
+                  <tr onclick="selectNocNode('venezia', this)" style="border-bottom: 1px solid var(--border-color); cursor: pointer; transition: background 0.2s;">
                     <td style="padding: 10px 8px; font-weight: 600;">Venezia Link</td>
                     <td style="padding: 10px 8px; color: var(--text-secondary);">Leased-line</td>
                     <td style="padding: 10px 8px;"><span class="status-tag green">Online</span></td>
                     <td id="node-latency-venezia" style="padding: 10px 8px; text-align: right; font-family: monospace; color: #00e676;">8 ms</td>
                     <td style="padding: 10px 8px; text-align: right; font-family: monospace;">0.0%</td>
                   </tr>
-                  <tr onclick="selectNocNode('split', this)" style="border-bottom: 1px solid rgba(255,255,255,0.04); cursor: pointer; transition: background 0.2s;">
+                  <tr onclick="selectNocNode('split', this)" style="border-bottom: 1px solid var(--border-color); cursor: pointer; transition: background 0.2s;">
                     <td style="padding: 10px 8px; font-weight: 600;">Split Node</td>
                     <td style="padding: 10px 8px; color: var(--text-secondary);">Leased-line / HF</td>
                     <td id="node-status-split" style="padding: 10px 8px;"><span class="status-tag green">Online</span></td>
                     <td id="node-latency-split" style="padding: 10px 8px; text-align: right; font-family: monospace; color: #00e676;">14 ms</td>
                     <td id="node-loss-split" style="padding: 10px 8px; text-align: right; font-family: monospace;">0.0%</td>
                   </tr>
-                  <tr onclick="selectNocNode('dubrovnik', this)" style="border-bottom: 1px solid rgba(255,255,255,0.04); cursor: pointer; transition: background 0.2s;">
+                  <tr onclick="selectNocNode('dubrovnik', this)" style="border-bottom: 1px solid var(--border-color); cursor: pointer; transition: background 0.2s;">
                     <td style="padding: 10px 8px; font-weight: 600;">Dubrovnik St.</td>
                     <td style="padding: 10px 8px; color: var(--text-secondary);">Microwave Link</td>
                     <td style="padding: 10px 8px;"><span class="status-tag green">Online</span></td>
                     <td id="node-latency-dubrovnik" style="padding: 10px 8px; text-align: right; font-family: monospace; color: #00e676;">18 ms</td>
                     <td style="padding: 10px 8px; text-align: right; font-family: monospace;">0.0%</td>
                   </tr>
-                  <tr onclick="selectNocNode('foggia', this)" style="border-bottom: 1px solid rgba(255,255,255,0.04); cursor: pointer; transition: background 0.2s;">
+                  <tr onclick="selectNocNode('foggia', this)" style="border-bottom: 1px solid var(--border-color); cursor: pointer; transition: background 0.2s;">
                     <td style="padding: 10px 8px; font-weight: 600;">Foggia (Local Hub)</td>
                     <td style="padding: 10px 8px; color: var(--text-secondary);">Microwave / SAT</td>
                     <td style="padding: 10px 8px;"><span class="status-tag green">Online</span></td>
                     <td id="node-latency-foggia" style="padding: 10px 8px; text-align: right; font-family: monospace; color: #00e676;">11 ms</td>
                     <td style="padding: 10px 8px; text-align: right; font-family: monospace;">0.0%</td>
                   </tr>
-                  <tr onclick="selectNocNode('salerno', this)" style="border-bottom: 1px solid rgba(255,255,255,0.04); cursor: pointer; transition: background 0.2s;">
+                  <tr onclick="selectNocNode('salerno', this)" style="border-bottom: 1px solid var(--border-color); cursor: pointer; transition: background 0.2s;">
                     <td style="padding: 10px 8px; font-weight: 600;">Salerno Station</td>
                     <td style="padding: 10px 8px; color: var(--text-secondary);">SATCOM / HF</td>
                     <td style="padding: 10px 8px;"><span class="status-tag green">Online</span></td>
                     <td id="node-latency-salerno" style="padding: 10px 8px; text-align: right; font-family: monospace; color: #00e676;">19 ms</td>
                     <td style="padding: 10px 8px; text-align: right; font-family: monospace;">0.0%</td>
                   </tr>
-                  <tr onclick="selectNocNode('golfo', this)" style="border-bottom: 1px solid rgba(255,255,255,0.04); cursor: pointer; transition: background 0.2s;">
+                  <tr onclick="selectNocNode('golfo', this)" style="border-bottom: 1px solid var(--border-color); cursor: pointer; transition: background 0.2s;">
                     <td style="padding: 10px 8px; font-weight: 600;">Golfo (Talos Link)</td>
                     <td style="padding: 10px 8px; color: var(--text-secondary);">SATCOM System</td>
                     <td id="node-status-golfo" style="padding: 10px 8px;"><span class="status-tag green">Online</span></td>
                     <td id="node-latency-golfo" style="padding: 10px 8px; text-align: right; font-family: monospace; color: #00e676;">25 ms</td>
                     <td id="node-loss-golfo" style="padding: 10px 8px; text-align: right; font-family: monospace;">0.0%</td>
                   </tr>
-                  <tr onclick="selectNocNode('malta', this)" style="border-bottom: 1px solid rgba(255,255,255,0.04); cursor: pointer; transition: background 0.2s;">
+                  <tr onclick="selectNocNode('malta', this)" style="border-bottom: 1px solid var(--border-color); cursor: pointer; transition: background 0.2s;">
                     <td style="padding: 10px 8px; font-weight: 600;">Malta SGB St.</td>
                     <td style="padding: 10px 8px; color: var(--text-secondary);">SATCOM / DF</td>
                     <td style="padding: 10px 8px;"><span class="status-tag green">Online</span></td>
@@ -5023,7 +5032,7 @@
                 <span id="nocSelectedNodeTitle">อัตราการส่งผ่านข้อมูลโหนด: ROME (NOC Central)</span>
                 <span style="font-size: 11px; font-family: monospace; color: var(--accent-cyan);">Live Telemetry</span>
               </div>
-              <div style="flex:1; background: rgba(0,0,0,0.2); border:1px solid var(--border-color); border-radius:6px; min-height: 140px; position:relative; overflow:hidden; display:flex; justify-content:center; align-items:center;">
+              <div style="flex:1; background: var(--bg-secondary); border:1px solid var(--border-color); border-radius:6px; min-height: 140px; position:relative; overflow:hidden; display:flex; justify-content:center; align-items:center;">
                 <canvas id="nocTrafficChart" style="position:absolute; top:0; left:0; width:100%; height:100%;"></canvas>
               </div>
             </div>
@@ -5443,7 +5452,7 @@
       nocCtx.clearRect(0, 0, nocCanvas.width, nocCanvas.height);
 
       // Fluctuating gridlines
-      nocCtx.strokeStyle = 'rgba(255,255,255,0.03)';
+      nocCtx.strokeStyle = 'rgba(0, 0, 0, 0.05)';
       nocCtx.lineWidth = 1;
       for (let i = 0; i < nocCanvas.width; i += 30) {
         nocCtx.beginPath();
@@ -5465,16 +5474,16 @@
       const sliceWidth = nocCanvas.width / (points.length - 1);
       nocCtx.lineWidth = 2.5;
       
-      // Line color based on state/node
-      let strokeColor = '#00e5ff'; // Cyan
-      let fillColor = 'rgba(0, 229, 255, 0.05)';
+      // Line color based on state/node (Optimized for light mode contrast)
+      let strokeColor = '#0891b2'; // var(--accent-cyan)
+      let fillColor = 'rgba(8, 145, 178, 0.06)';
       
       if (nocSelectedNode === 'split' && nocAlertState === 'threat') {
-        strokeColor = '#ff1744'; // Red
-        fillColor = 'rgba(255, 23, 68, 0.08)';
+        strokeColor = '#dc2626'; // var(--accent-red)
+        fillColor = 'rgba(220, 38, 38, 0.08)';
       } else if (nocSelectedNode === 'golfo' && nocAlertState === 'jamming') {
-        strokeColor = '#ff9100'; // Orange
-        fillColor = 'rgba(255, 145, 0, 0.08)';
+        strokeColor = '#ea580c'; // var(--accent-amber)
+        fillColor = 'rgba(234, 88, 12, 0.08)';
       }
       
       nocCtx.strokeStyle = strokeColor;
