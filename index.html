@@ -4765,6 +4765,46 @@
         </table>
       </div>
 
+            <!-- Card 4.5: แผนผังโครงข่ายระบบการสื่อสารและสั่งการทางทหาร -->
+      <div class="card" style="margin-bottom: 24px;">
+        <div class="card-title">แผนผังโครงข่ายระบบการสื่อสารและสั่งการทางทหาร (Military Communication Network Diagrams)</div>
+        <p style="font-size: 14px; line-height: 1.6; color: var(--text-secondary); margin-bottom: 16px;">
+          แผนภาพแสดงแนวทางการสถาปนาโครงข่ายสายใยเชื่อมโยง พิกัดสถานีส่งสัญญาณดาวเทียม สถานีวิทยุความถี่สูง และเสาตรวจรับสัญญาณหาทิศ (DF) เพื่อสร้างความปลอดภัยและดำรงช่องทางการสั่งการในยุทธบริเวณฝั่งตะวันตก
+        </p>
+
+        <!-- Network Selector Tabs -->
+        <div style="margin-bottom: 16px;">
+          <div style="display: flex; gap: 8px; flex-wrap: wrap;">
+            <button class="btn-filter active" id="btn-net-leased" onclick="changeNetworkMap('leased')" style="font-size: 12.5px; padding: 8px 14px; border-radius: 20px;">Leased-line</button>
+            <button class="btn-filter" id="btn-net-microwave" onclick="changeNetworkMap('microwave')" style="font-size: 12.5px; padding: 8px 14px; border-radius: 20px;">Microwave Network</button>
+            <button class="btn-filter" id="btn-net-comm" onclick="changeNetworkMap('comm')" style="font-size: 12.5px; padding: 8px 14px; border-radius: 20px;">ข่ายวิทยุ HF</button>
+            <button class="btn-filter" id="btn-net-sat" onclick="changeNetworkMap('sat')" style="font-size: 12.5px; padding: 8px 14px; border-radius: 20px;">ระบบดาวเทียม SAT</button>
+            <button class="btn-filter" id="btn-net-df" onclick="changeNetworkMap('df')" style="font-size: 12.5px; padding: 8px 14px; border-radius: 20px;">สถานีหาทิศ DF</button>
+          </div>
+        </div>
+
+        <!-- Network Map Display Area -->
+        <div style="background: rgba(255, 255, 255, 0.01); border: 1px solid var(--border-color); border-radius: 8px; padding: 16px; text-align: center;">
+          <div style="position: relative; cursor: zoom-in; display: inline-block; width: 100%; max-width: 780px; overflow: hidden; border-radius: 6px; box-shadow: 0 4px 20px rgba(0,0,0,0.5); border: 1px solid rgba(255,255,255,0.05);" onclick="openNetworkMapModal()">
+            <img id="networkMapImg" src="assets/net_leased_line.png" alt="AZ Navy Leased-line Broadband Internet" style="width: 100%; display: block; transition: transform 0.3s ease;">
+            <div style="position: absolute; bottom: 0; left: 0; right: 0; background: rgba(0,0,0,0.75); color: var(--accent-cyan); padding: 8px; font-size: 12px; font-weight: 500; backdrop-filter: blur(4px);">
+              🔍 คลิกที่แผนภาพโครงข่ายเพื่อขยายแสดงขนาดจริงแบบเต็มหน้าจอ (Military Intelligence Map Zoom)
+            </div>
+          </div>
+          
+          <!-- Dynamic Description -->
+          <div style="margin-top: 16px; text-align: left; border-top: 1px solid var(--border-color); padding-top: 16px;">
+            <h4 id="networkMapTitle" class="text-blue" style="font-size: 15px; margin-bottom: 8px; font-weight: 600; display: flex; align-items: center; gap: 8px;">
+              <span style="width:8px; height:8px; background:var(--accent-blue); border-radius:50%;"></span>
+              โครงข่าย Leased-line และอินเทอร์เน็ตความเร็วสูง (AZ Navy Leased-line Broadband Internet)
+            </h4>
+            <p id="networkMapDesc" style="font-size: 13.5px; line-height: 1.6; color: var(--text-secondary); margin: 0;">
+              ระบบสายวงเช่าและเครือข่ายอินเทอร์เน็ตความเร็วสูงหลัก เชื่อมต่อจากศูนย์ควบคุมปฏิบัติการเครือข่ายส่วนกลาง (NOC) ณ ROME (22°25′ N 11°45′ E) ไปยัง Venezia, Split, Dubrovnik, Foggia, Salerno, Palermo, Golfo และ Malta เพื่อให้บริการบรอดแบนด์ข้อมูลที่รวดเร็วและต่อเนื่อง
+            </p>
+          </div>
+        </div>
+      </div>
+
       <!-- Card 5: สถานะความพร้อมและ SITREP -->
       <div class="card" style="margin-bottom: 24px;">
         <div class="card-title">สถานภาพเครือข่ายยุทธการและรายงานข่าวประจำวัน (Communication SITREP)</div>
@@ -4982,6 +5022,86 @@
         closeModal();
       }
     });
+
+        // Network Map Switching Logic
+    const networkMaps = {
+      leased: {
+        src: 'assets/net_leased_line.png',
+        alt: 'AZ Navy Leased-line Broadband Internet',
+        title: 'โครงข่าย Leased-line และอินเทอร์เน็ตความเร็วสูง (AZ Navy Leased-line Broadband Internet)',
+        desc: 'ระบบสายวงเช่าและเครือข่ายอินเทอร์เน็ตความเร็วสูงหลัก เชื่อมต่อจากศูนย์ควบคุมปฏิบัติการเครือข่ายส่วนกลาง (NOC) ณ ROME (22°25′ N 11°45′ E) ไปยัง Venezia, Split, Dubrovnik, Foggia, Salerno, Palermo, Golfo และ Malta เพื่อให้บริการบรอดแบนด์ข้อมูลที่รวดเร็วและต่อเนื่อง'
+      },
+      microwave: {
+        src: 'assets/net_microwave.png',
+        alt: 'AZ NAV Microwave Relay Network',
+        title: 'โครงข่ายไมโครเวฟเชื่อมต่อระยะไกลความพร้อมใช้งานสูง (AZ NAV Microwave Relay Network)',
+        desc: 'โครงข่ายการเชื่อมต่อวิทยุไมโครเวฟจุดต่อจุด (Point-to-Point Microwave Link) เพื่อทำหน้าที่สื่อสารสำรองยามเครือข่ายสายหลักถูกทำลาย เชื่อมต่อโยงใยแบบ Mesh ระหว่างโหนด ROME, Venezia, Rimini, Pesaro, Salerno, Udina, Split, Dubrovnik, Foggia และกำลังทางเรือ'
+      },
+      comm: {
+        src: 'assets/net_comm.jpg',
+        alt: 'Tactical HF Communication Network',
+        title: 'ข่ายสื่อสารความถี่สูงเชิงยุทธวิธีทางเรือ (Tactical HF Communication Network)',
+        desc: 'ระบบเสาอากาศวิทยุความถี่สูง (HF Antennas) สำหรับเชื่อมต่อเรือหลวงในทะเลและหน่วยกำลังรบทางเรือ ประกอบด้วยสถานีเสาอากาศหลัก ณ ROME HF Antenna St. และ SPLIT HF Antenna St. ร่วมกับสถานีสำรองทางยุทธศาสตร์ ณ Udina Alternative St. และ Salerno Alternative St. เชื่อมต่อส่งกำลังบำรุงและสื่อสารสั่งการระยะไกล'
+      },
+      sat: {
+        src: 'assets/net_sat.png',
+        alt: 'Military SATCOM - AZ NAV SAT',
+        title: 'โครงข่ายระบบดาวเทียมทหารและการหาตำแหน่งพิกัด (Military SATCOM - AZ NAV SAT)',
+        desc: 'สถานีรับส่งสัญญาณดาวเทียมความมั่นคงสูง (SATCOM Ground Stations) เชื่อมต่อตรงกับระบบดาวเทียมทหารหลัก มีจานรับสัญญาณกระจายอยู่ทั่วพื้นที่สั่งการยุทธศาสตร์ ได้แก่ ROME, Venezia, Rimini, Pesaro, Salerno, Udina, Zagreb SGB St., Split, Dubrovnik, Foggia และ Malta SGB St.'
+      },
+      df: {
+        src: 'assets/net_df.jpg',
+        alt: 'AZ NAV Direction Finder - DF Network',
+        title: 'เครือข่ายค้นหาทิศทางวิทยุและสงครามอิเล็กทรอนิกส์ (AZ NAV Direction Finder - DF Network)',
+        desc: 'สถานีหาทิศและเฝ้าตรวจสัญญาณวิทยุและเรดาร์ข้าศึก (DF/SIGINT) ติดตั้งระบบเสาอากาศหลัก ๕ สถานี ครอบคลุมพิกัดป้องกันในยุทธบริเวณตะวันตก ได้แก่ ROME, Split, Dubrovnik, Salerno SGB St., Foggia และ Malta SGB St. เพื่อขัดขวางและดักจับพิกัดกำลังส่งวิทยุฝ่ายตรงข้าม'
+      }
+    };
+
+    function changeNetworkMap(netKey) {
+      const img = document.getElementById('networkMapImg');
+      const title = document.getElementById('networkMapTitle');
+      const desc = document.getElementById('networkMapDesc');
+      
+      const mapInfo = networkMaps[netKey];
+      if (!mapInfo) return;
+
+      img.src = mapInfo.src;
+      img.alt = mapInfo.alt;
+      
+      // Update heading HTML structure to keep the circle dot decoration
+      title.innerHTML = `<span style="width:8px; height:8px; background:var(--accent-blue); border-radius:50%;"></span> ` + mapInfo.title;
+      desc.textContent = mapInfo.desc;
+
+      const buttons = [
+        { key: 'leased', id: 'btn-net-leased' },
+        { key: 'microwave', id: 'btn-net-microwave' },
+        { key: 'comm', id: 'btn-net-comm' },
+        { key: 'sat', id: 'btn-net-sat' },
+        { key: 'df', id: 'btn-net-df' }
+      ];
+
+      buttons.forEach(btn => {
+        const btnElem = document.getElementById(btn.id);
+        if (btnElem) {
+          if (btn.key === netKey) {
+            btnElem.classList.add('active');
+          } else {
+            btnElem.classList.remove('active');
+          }
+        }
+      });
+    }
+
+    function openNetworkMapModal() {
+      const img = document.getElementById('networkMapImg');
+      const title = document.getElementById('networkMapTitle');
+      if (img && typeof openModal === 'function') {
+        // Strip out HTML tags for the modal caption
+        const captionText = title.textContent.trim();
+        openModal(img.src, captionText);
+      }
+    }
+
 
     // ==================================================== 
     // Google Sheet Operations JS functions
