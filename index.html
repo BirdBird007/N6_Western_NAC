@@ -4775,7 +4775,8 @@
         <!-- Network Selector Tabs -->
         <div style="margin-bottom: 16px;">
           <div style="display: flex; gap: 8px; flex-wrap: wrap;">
-            <button class="btn-filter active" id="btn-net-leased" onclick="changeNetworkMap('leased')" style="font-size: 12.5px; padding: 8px 14px; border-radius: 20px;">Leased-line</button>
+            <button class="btn-filter active" id="btn-net-overview" onclick="changeNetworkMap('overview')" style="font-size: 12.5px; padding: 8px 14px; border-radius: 20px;">ผังรวมโครงข่าย (Overview)</button>
+            <button class="btn-filter" id="btn-net-leased" onclick="changeNetworkMap('leased')" style="font-size: 12.5px; padding: 8px 14px; border-radius: 20px;">Leased-line</button>
             <button class="btn-filter" id="btn-net-microwave" onclick="changeNetworkMap('microwave')" style="font-size: 12.5px; padding: 8px 14px; border-radius: 20px;">Microwave Network</button>
             <button class="btn-filter" id="btn-net-comm" onclick="changeNetworkMap('comm')" style="font-size: 12.5px; padding: 8px 14px; border-radius: 20px;">ข่ายวิทยุ HF</button>
             <button class="btn-filter" id="btn-net-sat" onclick="changeNetworkMap('sat')" style="font-size: 12.5px; padding: 8px 14px; border-radius: 20px;">ระบบดาวเทียม SAT</button>
@@ -4786,7 +4787,7 @@
         <!-- Network Map Display Area -->
         <div style="background: rgba(255, 255, 255, 0.01); border: 1px solid var(--border-color); border-radius: 8px; padding: 16px; text-align: center;">
           <div style="position: relative; cursor: zoom-in; display: inline-block; width: 100%; max-width: 780px; overflow: hidden; border-radius: 6px; box-shadow: 0 4px 20px rgba(0,0,0,0.5); border: 1px solid rgba(255,255,255,0.05);" onclick="openNetworkMapModal()">
-            <img id="networkMapImg" src="assets/net_leased_line.png" alt="AZ Navy Leased-line Broadband Internet" style="width: 100%; display: block; transition: transform 0.3s ease;">
+            <img id="networkMapImg" src="assets/net_overview.png" alt="AZ Navy Integrated Communications Systems Overview" style="width: 100%; display: block; transition: transform 0.3s ease;">
             <div style="position: absolute; bottom: 0; left: 0; right: 0; background: rgba(0,0,0,0.75); color: var(--accent-cyan); padding: 8px; font-size: 12px; font-weight: 500; backdrop-filter: blur(4px);">
               🔍 คลิกที่แผนภาพโครงข่ายเพื่อขยายแสดงขนาดจริงแบบเต็มหน้าจอ (Military Intelligence Map Zoom)
             </div>
@@ -4796,10 +4797,10 @@
           <div style="margin-top: 16px; text-align: left; border-top: 1px solid var(--border-color); padding-top: 16px;">
             <h4 id="networkMapTitle" class="text-blue" style="font-size: 15px; margin-bottom: 8px; font-weight: 600; display: flex; align-items: center; gap: 8px;">
               <span style="width:8px; height:8px; background:var(--accent-blue); border-radius:50%;"></span>
-              โครงข่าย Leased-line และอินเทอร์เน็ตความเร็วสูง (AZ Navy Leased-line Broadband Internet)
+              ผังรวมโครงข่ายระบบการสื่อสารร่วม ทรภ.ตต. (AZ Navy Integrated Communications Systems Overview)
             </h4>
             <p id="networkMapDesc" style="font-size: 13.5px; line-height: 1.6; color: var(--text-secondary); margin: 0;">
-              ระบบสายวงเช่าและเครือข่ายอินเทอร์เน็ตความเร็วสูงหลัก เชื่อมต่อจากศูนย์ควบคุมปฏิบัติการเครือข่ายส่วนกลาง (NOC) ณ ROME (22°25′ N 11°45′ E) ไปยัง Venezia, Split, Dubrovnik, Foggia, Salerno, Palermo, Golfo และ Malta เพื่อให้บริการบรอดแบนด์ข้อมูลที่รวดเร็วและต่อเนื่อง
+              ภาพรวมการบูรณาการระบบสื่อสารทางยุทธวิธีร่วมทั้งหมดในพื้นที่ปฏิบัติการ (AOR) รวมถึงการเชื่อมต่อแบบสายวงเช่า Leased-line, ข่ายสำรองสัญญาณไมโครเวฟจุดต่อจุด (Microwave Links), ข่ายวิทยุคลื่นฟ้าและคลื่นดินความถี่สูง (HF Comms), และเครือข่ายเชื่อมโยงดาวเทียม SGB
             </p>
           </div>
         </div>
@@ -5025,6 +5026,12 @@
 
         // Network Map Switching Logic
     const networkMaps = {
+      overview: {
+        src: 'assets/net_overview.png',
+        alt: 'AZ Navy Integrated Communications Systems Overview',
+        title: 'ผังรวมโครงข่ายระบบการสื่อสารร่วม ทรภ.ตต. (AZ Navy Integrated Communications Systems Overview)',
+        desc: 'ภาพรวมการบูรณาการระบบสื่อสารทางยุทธวิธีร่วมทั้งหมดในพื้นที่ปฏิบัติการ (AOR) รวมถึงการเชื่อมต่อแบบสายวงเช่า Leased-line, ข่ายสำรองสัญญาณไมโครเวฟจุดต่อจุด (Microwave Links), ข่ายวิทยุคลื่นฟ้าและคลื่นดินความถี่สูง (HF Comms), และเครือข่ายเชื่อมโยงดาวเทียม SGB'
+      },
       leased: {
         src: 'assets/net_leased_line.png',
         alt: 'AZ Navy Leased-line Broadband Internet',
@@ -5073,6 +5080,7 @@
       desc.textContent = mapInfo.desc;
 
       const buttons = [
+        { key: 'overview', id: 'btn-net-overview' },
         { key: 'leased', id: 'btn-net-leased' },
         { key: 'microwave', id: 'btn-net-microwave' },
         { key: 'comm', id: 'btn-net-comm' },
