@@ -1,0 +1,8 @@
+# Disable caching for index.html on Apache/LiteSpeed web servers
+<Files "index.html">
+    <IfModule mod_headers.c>
+        Header set Cache-Control "no-store, no-cache, must-revalidate, private"
+        Header set Pragma "no-cache"
+        Header set Expires "0"
+    </IfModule>
+</Files>
